@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from .layers import ConvBlock, UpBlock, DownBlock, Flatten, Unflatten
+from .layers import ConvBlock, UpBlock, DownBlock, Flatten, Unflatten, FCBlock
 
 class UnconditionalUNet(nn.Module):
     def __init__(
@@ -53,19 +53,6 @@ class UnconditionalUNet(nn.Module):
 
         x = self.out_conv2(x)
         return x
-
-class FCBlock(nn.Module):
-    def __init__(self, in_channels: int, out_channels: int):
-        super().__init__()
-
-        self.layers = nn.Sequential(
-            nn.Linear(in_channels, out_channels),
-            nn.GELU(),
-            nn.Linear(out_channels, out_channels),
-        )
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.layers(x)
 
 class TimeConditionalUNet(nn.Module):
     def __init__(

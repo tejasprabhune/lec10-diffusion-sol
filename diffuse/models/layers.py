@@ -114,3 +114,16 @@ class UpBlock(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.layers(x)
         return x
+
+class FCBlock(nn.Module):
+    def __init__(self, in_channels: int, out_channels: int):
+        super().__init__()
+
+        self.layers = nn.Sequential(
+            nn.Linear(in_channels, out_channels),
+            nn.GELU(),
+            nn.Linear(out_channels, out_channels),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.layers(x)
